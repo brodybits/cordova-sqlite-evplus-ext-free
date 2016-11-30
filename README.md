@@ -1,4 +1,4 @@
-# Cordova/PhoneGap sqlite storage - premium enterprise version with performance improvements for Android and FUTURE TBD other features
+# Cordova/PhoneGap sqlite storage - premium enterprise version with performance improvements for Android and FUTURE TBD other extra features
 
 Native interface to sqlite in a Cordova/PhoneGap plugin for Android, iOS, macOS, and Windows 10 (UWP), with API similar to HTML5/[Web SQL API](http://www.w3.org/TR/webdatabase/).
 
@@ -12,7 +12,9 @@ TBD Circle CI (Android)/Travis CI (iOS)
 
 ## About this version
 
-Premium enterprise version with performance improvements for Android and FUTURE TBD other features - common version branch with external sqlite3 dependencies installed by a before_plugin_install hook.
+Premium enterprise version with performance improvements for Android, FUTURE TBD worker support and other extra features.
+
+TBD NOTE: This is a common version branch with external sqlite3 dependencies installed by a before_plugin_install hook. FUTURE TBD sqlite3 dependencies will be included if needed by any commercial users for PhoneGap Build or any other build tools.
 
 <!-- END About this version -->
 
