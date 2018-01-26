@@ -10,6 +10,10 @@
 
 #import "sqlite3.h"
 
+#import "sqlite3_regexp.h"
+
+#import "sqlite3_base64.h"
+
 #import "PSPDFThreadSafeMutableDictionary.h"
 
 // Defines Macro to only log lines when in DEBUG mode
@@ -117,7 +121,9 @@
     NSString *dbname = [self getDBPath:dbfilename at:dblocation];
 
     if (dbname == NULL) {
-        // XXX NOT EXPECTED (INTERNAL ERROR):
+        // XXX NOT EXPECTED (INTERNAL ERROR - XXX TODO SIGNAL ERROR STATUS):
+        // NSLog(@"No db name specified for open");
+        // DLog(@"No db name specified for open");
         NSLog(@"No db name specified for open");
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"You must specify database name"];
     }
@@ -126,6 +132,7 @@
 
         if (dbPointer != NULL) {
             // NO LONGER EXPECTED due to BUG 666 workaround solution:
+            // DLog(@"Reusing existing database connection for db name %@", dbfilename);
             NSLog(@"INTERNAL ERROR: database already open for db name: %@ (db file name: %@)", dbname, dbfilename);
             pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString: @"INTERNAL ERROR: database already open"];
             [self.commandDelegate sendPluginResult:pluginResult callbackId: command.callbackId];
@@ -143,6 +150,12 @@
                 [self.commandDelegate sendPluginResult:pluginResult callbackId: command.callbackId];
                 return;
             } else {
+                // TBD IGNORE result:
+                const char * err1;
+                sqlite3_regexp_init(db, &err1);
+
+                sqlite3_base64_init(db);
+
                 // for SQLCipher version:
                 // NSString *dbkey = [options objectForKey:@"key"];
                 // const char *key = NULL;

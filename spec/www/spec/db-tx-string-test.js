@@ -442,7 +442,7 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + "INLINE string vertical tab test", function(done) {
-          if (isWP8) pending('BROKEN for WP(8)'); // [BUG #202] UNICODE characters not working with WP(8)
+          // if (isWP8) pending('...'); // XXX GONE
           if (isAndroid && !isWebSql && !isImpl2) pending('XXX SKIP: BUG on Android (default Android-sqlite-evcore-native-driver access implementation)'); // XXX ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#28
 
           var db = openDatabase("String-vertical-tab-test.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -483,7 +483,7 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + "INLINE string form feed test", function(done) {
-          if (isWP8) pending('BROKEN for WP(8)'); // [BUG #202] UNICODE characters not working with WP(8)
+          // if (isWP8) pending('...'); // XXX GONE
           if (isAndroid && !isWebSql && !isImpl2) pending('XXX SKIP: BUG on Android (default Android-sqlite-evcore-native-driver access implementation)'); // XXX ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#28
 
           var db = openDatabase("String-form-feed-test.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -524,7 +524,7 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + "INLINE string backspace test", function(done) {
-          if (isWP8) pending('BROKEN for WP(8)'); // [BUG #202] UNICODE characters not working with WP(8)
+          // if (isWP8) pending('...'); // XXX GONE
           if (isAndroid && !isWebSql && !isImpl2) pending('XXX SKIP: BUG on Android (default Android-sqlite-evcore-native-driver access implementation)'); // XXX ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#28
 
           var db = openDatabase("String-backspace-test.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -917,7 +917,7 @@ var mytests = function() {
         // - cordova/cordova-discuss#57 (issue with cordova-android)
 
         it(suiteName + "UNICODE \\u2029 paragraph separator string length", function(done) {
-          if (isWP8) pending('BROKEN for WP(8)'); // [BUG #202] Certain UNICODE characters not working with WP(8)
+          if (isWP8) pending('BROKEN on WP(8)'); // [BUG #202] Certain UNICODE characters not working with WP(8)
 
           // NOTE: this test verifies that the UNICODE paragraph separator (\u2029)
           // is seen by the sqlite implementation OK:

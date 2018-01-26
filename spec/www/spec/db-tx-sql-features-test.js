@@ -8,9 +8,10 @@ var isWP8 = /IEMobile/.test(navigator.userAgent); // Matches WP(7/8/8.1)
 var isWindows = /Windows /.test(navigator.userAgent); // Windows
 var isAndroid = !isWindows && /Android/.test(navigator.userAgent);
 
-// NOTE: In the common storage-master branch there is no difference between the
-// default implementation and implementation #2. But the test will also apply
-// the androidLockWorkaround: 1 option in the case of implementation #2.
+// NOTE: While in certain version branches there is no difference between
+// the default Android implementation and implementation #2,
+// this test script will also apply the androidLockWorkaround: 1 option
+// in case of implementation #2.
 var scenarioList = [
   isAndroid ? 'Plugin-implementation-default' : 'Plugin',
   'HTML5',
@@ -166,10 +167,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        // Test for Cordova-sqlcipher-adapter version (SQLCipher 3.4.0 based on SQLite 3.11.0)
         it(suiteName + 'Basic JSON1 json test', function(done) {
-          //if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          pending('SKIP: NOT IMPLEMENTED for this version');
+          if (isWebSql) pending('SKIP for Web SQL (not implemented)');
+          if (!isWebSql && isAndroid && isImpl2) pending('SKIP for androidDatabaseImplementation: 2 [NOT IMPLEMENTED]');
 
           var db = openDatabase('basic-json1-json-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
@@ -196,10 +196,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        // Test for Cordova-sqlcipher-adapter version (SQLCipher 3.4.0 based on SQLite 3.11.0)
         it(suiteName + 'JSON1 json_object test', function(done) {
-          //if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          pending('SKIP: NOT IMPLEMENTED for this version');
+          if (isWebSql) pending('SKIP for Web SQL (not implemented)');
+          if (!isWebSql && isAndroid && isImpl2) pending('SKIP for androidDatabaseImplementation: 2 [NOT IMPLEMENTED]');
 
           var db = openDatabase('json1-json-object-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
@@ -227,10 +226,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        // Test for Cordova-sqlcipher-adapter version (SQLCipher 3.4.0 based on SQLite 3.11.0)
         it(suiteName + 'create virtual table using FTS5', function(done) {
-          //if (isWebSql) pending('SKIP for Web SQL (not implemented)');
-          pending('SKIP: NOT IMPLEMENTED for this version');
+          if (isWebSql) pending('SKIP for Web SQL (not implemented)');
+          if (!isWebSql && isAndroid && isImpl2) pending('SKIP for androidDatabaseImplementation: 2 [NOT IMPLEMENTED]');
 
           var db = openDatabase('virtual-table-using-fts5.db', '1.0', 'Test', DEFAULT_SIZE);
 

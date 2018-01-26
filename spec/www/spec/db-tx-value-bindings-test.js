@@ -5,7 +5,7 @@ var MYTIMEOUT = 12000;
 var DEFAULT_SIZE = 5000000; // max to avoid popup in safari/ios
 
 var isWP8 = /IEMobile/.test(navigator.userAgent); // Matches WP(7/8/8.1)
-var isWindows = /Windows /.test(navigator.userAgent); // Windows (8.1)
+var isWindows = /Windows /.test(navigator.userAgent); // Windows 8.1/Windows Phone 8.1/Windows 10
 var isAndroid = !isWindows && /Android/.test(navigator.userAgent);
 var isMac = /Macintosh/.test(navigator.userAgent);
 var isWKWebView = !isWindows && !isAndroid && !isWP8 && !isMac && !!window.webkit && !!window.webkit.messageHandlers;
@@ -14,6 +14,10 @@ var isWKWebView = !isWindows && !isAndroid && !isWP8 && !isMac && !!window.webki
 // the default Android implementation and implementation #2,
 // this test script will also apply the androidLockWorkaround: 1 option
 // in case of implementation #2.
+// The following openDatabase settings are used for Plugin-implementation-2
+// on Android:
+// - androidDatabaseImplementation: 2
+// - androidLockWorkaround: 1
 var scenarioList = [
   isAndroid ? 'Plugin-implementation-default' : 'Plugin',
   'HTML5',
@@ -1269,7 +1273,7 @@ var mytests = function() {
         it(suiteName + ' stores [Unicode] string with \\u0000 (same as \\0) correctly [XXX TBD NOT SUPPORTED ON ALL PLATFORMS]', function (done) {
           // if (isWP8) pending(...); // XXX WP8 NOT SUPPORTED by this plugin version
           if (isWindows) pending('XXX SKIP DUE TO TRUNCATION ISSUE on Windows'); // XXX TBD
-          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX TBD BROKEN on default Android evcore-native-driver database access implementation'); // XXX TBD
+          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX SKIP DUE TO BUG on default Android evcore-native-driver database access implementation'); // XXX TBD
 
           var db = openDatabase('UNICODE-store-u0000-test.db');
 
@@ -1322,8 +1326,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + ' returns [Unicode] string with \\u0000 (same as \\0) correctly [XXX BUG on Android & Windows: TRUNCATION on Windows; INCORRECT VALUE on Android (default evcore-native-driver database access implementation)]', function (done) {
-          if (isWP8) pending('BROKEN on WP(8)'); // [BUG #202] UNICODE characters not working with WP(8)
+        it(suiteName + ' returns [Unicode] string with \\u0000 (same as \\0) correctly [XXX TRUNCATION ISSUE on Windows/???; INCORRECT VALUE BUG on Android (default evcore-native-driver database access implementation)]', function (done) {
+          // if (isWP8) pending('...'); // XXX GONE
+          if (!isWebSql && !isWindows && isAndroid && !isImpl2) pending('XXX SKIP DUE TO BUG on Android (default evcore-native-driver implementation)'); // [FUTURE TBD (documented)]
           if (isWebSql && isAndroid) pending('SKIP for Android (WebKit Web SQL)') // XXX TBD ...
 
           var db = openDatabase('UNICODE-retrieve-u0000-test.db');
@@ -1345,11 +1350,8 @@ var mytests = function() {
                     // we would like to know, so the test is coded to fail if it starts
                     // working there.
 
-                    if (isWebSql) {
-                      expect(name.length).toBe(1);
-                      expect(name).toBe('a');
-                    } else if (isWindows) {
-                      // XXX BUG on Windows:
+                    if (isWindows || (isWebSql && !(/Android [5-9]/.test(navigator.userAgent)))) {
+                      // XXX TRUNCATION ISSUE on Windows/???:
                       expect(name.length).toBe(1);
                       expect(name).toBe('a');
                     } else if (!isWindows && isAndroid && !isImpl2) {
@@ -1383,7 +1385,7 @@ var mytests = function() {
         // - cordova/cordova-discuss#57 (issue with cordova-android)
         it(suiteName +
             ' handles UNICODE \\u2028 line separator correctly in database', function (done) {
-          if (isWP8) pending('BROKEN for WP(8)'); // [BUG #202] UNICODE characters not working with WP(8)
+          if (isWP8) pending('BROKEN on WP(8)'); // [BUG #202] UNICODE characters not working with WP(8)
           if (!isWebSql && !isWindows && isAndroid) pending('SKIP for Android plugin (cordova-android 6.x BUG: cordova/cordova-discuss#57)');
           if (!isWebSql && !isWindows && !isAndroid && !isWP8) pending('SKIP for iOS/macOS plugin (Cordova BUG: CB-9435)');
 

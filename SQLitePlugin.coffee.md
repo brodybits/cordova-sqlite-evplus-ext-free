@@ -765,12 +765,14 @@
         if !openargs.name
           throw newSQLError 'Database name value is missing in openDatabase call'
 
-        # Database location setting is MANDATORY again (affects iOS/macOS ONLY):
-        if !openargs.iosDatabaseLocation and !openargs.location and openargs.location isnt 0
-          throw newSQLError 'Database location or iosDatabaseLocation setting is now mandatory in openDatabase call.'
+        if !openargs.iosDatabaseLocation and !openargs.location and openargs.location isnt 0 and !openargs.androidDatabaseLocation
+          throw newSQLError 'Database location (or iosDatabaseLocation or androidDatabaseLocation) setting is now mandatory in openDatabase call.'
 
         if !!openargs.location and !!openargs.iosDatabaseLocation
           throw newSQLError 'AMBIGUOUS: both location and iosDatabaseLocation settings are present in openDatabase call. Please use either setting, not both.'
+
+        if !!openargs.location and !!openargs.androidDatabaseLocation
+          throw newSQLError 'AMBIGUOUS: both location and androidDatabaseLocation values are present in openDatabase call. Please use either setting, not both.'
 
         dblocation =
           if !!openargs.location and openargs.location is 'default'
@@ -833,12 +835,14 @@
           #args.dblocation = dblocation || dblocations[0]
           #args.dblocation = dblocation || dblocations[2]
 
-        # Database location setting is MANDATORY again (affects iOS/macOS ONLY):
-        if !first.iosDatabaseLocation and !first.location and first.location isnt 0
-          throw newSQLError 'Database location or iosDatabaseLocation setting is now mandatory in deleteDatabase call.'
+        if !first.iosDatabaseLocation and !first.location and first.location isnt 0 and !first.androidDatabaseLocation
+          throw newSQLError 'Database location (or iosDatabaseLocation or androidDatabaseLocation) setting is now mandatory in deleteDatabase call.'
 
         if !!first.location and !!first.iosDatabaseLocation
           throw newSQLError 'AMBIGUOUS: both location and iosDatabaseLocation settings are present in deleteDatabase call. Please use either setting value, not both.'
+
+        if !!first.location and !!first.androidDatabaseLocation
+          throw newSQLError 'AMBIGUOUS: both location and androidDatabaseLocation values are present in deleteDatabase call. Please use either setting value, not both.'
 
         dblocation =
           if !!first.location and first.location is 'default'
@@ -854,6 +858,8 @@
           throw newSQLError 'Valid iOS database location could not be determined in deleteDatabase call'
 
         args.dblocation = dblocation
+        if !!first.androidDatabaseLocation
+          args.androidDatabaseLocation = first.androidDatabaseLocation
 
         # XXX TODO BUG litehelpers/Cordova-sqlite-storage#367 (repeated here):
         # abort all pending transactions (with error callback)
