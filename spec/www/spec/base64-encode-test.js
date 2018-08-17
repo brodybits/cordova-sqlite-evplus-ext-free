@@ -6,6 +6,10 @@ var DEFAULT_SIZE = 5000000; // max to avoid popup in safari/ios
 
 var isWindows = /Windows /.test(navigator.userAgent); // Windows (8.1)
 var isAndroid = !isWindows && /Android/.test(navigator.userAgent);
+// XXX
+var isFirefox = /Firefox/.test(navigator.userAgent);
+var isWebKitBrowser = !isWindows && !isAndroid && /Safari/.test(navigator.userAgent);
+var isBrowser = isWebKitBrowser || isFirefox;
 
 // NOTE: In the common storage-master branch there is no difference between the
 // default implementation and implementation #2. But the test will also apply
@@ -50,6 +54,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64(X'010203')", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-010203.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -69,6 +74,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64(X'FFD1FFD2')", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-FFD1FFD2.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -88,6 +94,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64(X'FFD1FFD212')", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-FFD1FFD212.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -107,6 +114,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64(X'FFD1FFD23456')", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-FFD1FFD23456.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -126,6 +134,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64 (96 bytes)", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-96-bytes.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -152,6 +161,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64 (100 bytes)", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-100-bytes.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -180,6 +190,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64 (101 bytes)", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-101-bytes.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -208,6 +219,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64 (1536 [256*6] bytes)", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-1536-bytes.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -234,6 +246,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64 (1540 [256*6+4] bytes)", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-1540-bytes.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -262,6 +275,7 @@ var mytests = function() {
 
         it(suiteName + "SELECT BASE64 (1541 [256*6+5] bytes)", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("SELECT-BASE64-1541-bytes.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -294,6 +308,7 @@ var mytests = function() {
 
         it(suiteName + "INSERT X'FFD1FFD234' & SELECT as BASE64", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("INSERT-FFD1FFD234-and-SELECT.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -324,6 +339,7 @@ var mytests = function() {
 
         it(suiteName + "INSERT BLOB with 101 bytes & SELECT as BASE64", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("INSERT-101-bytes-and-SELECT.db", "1.0", "Demo", DEFAULT_SIZE);
@@ -363,6 +379,7 @@ var mytests = function() {
 
         it(suiteName + "INSERT BLOB with 1541 bytes & SELECT as BASE64", function(done) {
           if (isWebSql) pending('SKIP: BASE64 not supported by Web SQL');
+          if (!isWebSql && isBrowser) pending('XXX NOT SUPPORTED by plugin on browser platform'); // XXX
           if (!isWebSql && isAndroid && isImpl2) pending('SKIP: BASE64 not supported for androidDatabaseImplementation: 2');
 
           var db = openDatabase("INSERT-101-bytes-and-SELECT.db", "1.0", "Demo", DEFAULT_SIZE);
