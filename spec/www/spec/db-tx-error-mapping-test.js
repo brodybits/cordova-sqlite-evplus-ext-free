@@ -99,7 +99,7 @@ var mytests = function() {
 
         // GENERAL NOTE: ERROR MESSAGES are subject to improvements and other possible changes.
 
-        it(suiteName + 'syntax error: command with misspelling [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40]', function(done) {
+        it(suiteName + 'syntax error: command with misspelling [XXX CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40]', function(done) {
           var db = openDatabase("Syntax-error-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -133,8 +133,8 @@ var mytests = function() {
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
-                expect(error.message).toMatch(/syntax error or other error.*code 1/);
+                // XXX CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+                expect(error.message).toMatch(/syntax error or other error.*code: 1 message: near .*SLCT.*: syntax error/);
               else if (!isWebSql && !isWindows && isAndroid && isImpl2)
                 expect(error.message).toMatch(/near \"SLCT\": syntax error.*code 1.*while compiling: SLCT 1/);
               else
@@ -175,7 +175,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'INSERT with VALUES in the wrong place (with a trailing space) [XXX TBD "incomplete input" vs "syntax error" message on (WebKit) Web SQL on Android 8.x/...; XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40]', function(done) {
+        it(suiteName + 'INSERT with VALUES in the wrong place (with a trailing space) [XXX TBD "incomplete input" vs "syntax error" message on (WebKit) Web SQL on Android 8.x/...; XXX TBD CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40]', function(done) {
           var db = openDatabase("INSERT-Syntax-error-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -220,7 +220,7 @@ var mytests = function() {
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
               else if (isAndroid && !isImpl2)
-                expect(error.message).toMatch(/syntax error or other error.*code 1/); // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+                expect(error.message).toMatch(/syntax error or other error.*code: 1 message: incomplete input/); // XXX CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
               else if (isAndroid && isImpl2)
                 expect(error.message).toMatch(/near \"VALUES\": syntax error.*code 1.*while compiling: INSERT INTO test_table/);
               else
@@ -250,7 +250,7 @@ var mytests = function() {
             else if (isWindows)
               expect(error.message).toMatch(/error callback did not return false.*Error preparing an SQLite statement/);
             else if (isAndroid || isBrowser) // XXX TBD PROPER INFO MESSAGE NOT ON Android/browser/...
-              // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+              // XXX TBD CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
               expect(error.message).toMatch(/error callback did not return false.*syntax error/); // XXX Android/browser/...
             else
               expect(error.message).toMatch(/error callback did not return false.*incomplete input/); // XXX SQLite 3.22.0 on iOS/macOS
@@ -314,7 +314,7 @@ var mytests = function() {
               else if (isWindows)
                 expect(error.message).toMatch(/SQLite3 step error result code: 1/);
               else if (isAndroid && !isImpl2)
-                expect(error.message).toMatch(/constraint fail.*code 19/);
+                expect(error.message).toMatch(/constraint fail.*code: 19 message: UNIQUE constraint failed: test_table\.data/);
               else if (isAndroid && isImpl2)
                 expect(error.message).toMatch(/constraint failure/);
               else
@@ -355,7 +355,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'SELECT uper("Test") (misspelled function name) [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
+        it(suiteName + 'SELECT uper("Test") (misspelled function name) [XXX CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
           var db = openDatabase("Misspelled-function-name-error-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -390,8 +390,8 @@ var mytests = function() {
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
-                expect(error.message).toMatch(/syntax error or other error.*code 1/);
+                // XXX CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+                expect(error.message).toMatch(/syntax error or other error.*code: 1 message: no such function: uper/);
               else if (!isWebSql && !isWindows && isAndroid && isImpl2)
                 expect(error.message).toMatch(/no such function: uper.*code 1/);
               else
@@ -422,7 +422,7 @@ var mytests = function() {
             else if (isWindows)
               expect(error.message).toMatch(/error callback did not return false.*Error preparing an SQLite statement/);
             else if (isAndroid && !isImpl2)
-              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
+              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code: 1 message: no such function: uper/);
             else
               expect(error.message).toMatch(/error callback did not return false.*no such function: uper/);
 
@@ -434,7 +434,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'SELECT FROM bogus table (other database error) [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
+        it(suiteName + 'SELECT FROM bogus table (other database error) [XXX CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
           var db = openDatabase("SELECT-FROM-bogus-table-error-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -469,8 +469,8 @@ var mytests = function() {
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
-                expect(error.message).toMatch(/syntax error or other error.*code 1/);
+                // XXX CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+                expect(error.message).toMatch(/syntax error or other error.*code: 1 message: no such table: BogusTable/);
               else if (!isWebSql && !isWindows && isAndroid && isImpl2)
                 expect(error.message).toMatch(/no such table: BogusTable.*code 1/);
               else
@@ -500,7 +500,7 @@ var mytests = function() {
             else if (isWindows)
               expect(error.message).toMatch(/error callback did not return false.*Error preparing an SQLite statement/);
             else if (isAndroid && !isImpl2)
-              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
+              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code: 1 message: no such table: BogusTable/);
             else
               expect(error.message).toMatch(/error callback did not return false.*no such table: BogusTable/);
 
@@ -512,7 +512,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'INSERT missing column [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
+        it(suiteName + 'INSERT missing column [XXX TBD CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
           var db = openDatabase("INSERT-missing-column-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -548,9 +548,9 @@ var mytests = function() {
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+                // XXX TBD CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
                 // expect(error.message).toMatch(/sqlite3_prepare_v2 failure:.*table test_table has 2 columns but 1 values were supplied/);
-                expect(error.message).toMatch(/syntax error or other error.*code 1/);
+                expect(error.message).toMatch(/syntax error or other error.*code: 1 message: table test_table has 2 columns but 1 values were supplied/);
               else if (!isWebSql && !isWindows && isAndroid && isImpl2)
                 expect(error.message).toMatch(/table test_table has 2 columns but 1 values were supplied.*code 1.*while compiling: INSERT INTO test_table/);
               else
@@ -580,8 +580,8 @@ var mytests = function() {
               expect(error.message).toMatch(/callback raised an exception.*or.*error callback did not return false/);
             else if (isWindows)
               expect(error.message).toMatch(/error callback did not return false.*Error preparing an SQLite statement/);
-            else if (isAndroid && !isImpl2)
-              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
+            //* else if (isAndroid && !isImpl2)
+            //*   expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
             else
               expect(error.message).toMatch(/error callback did not return false.*table test_table has 2 columns but 1 values were supplied/);
 
@@ -593,7 +593,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'INSERT wrong column name [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
+        it(suiteName + 'INSERT wrong column name [XXX TBD CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
           var db = openDatabase("INSERT-wrong-column-name-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -628,10 +628,10 @@ var mytests = function() {
                 expect(error.message).toMatch(/could not prepare statement.*1 table test_table has no column named wrong_column/);
               else if (isWindows)
                 expect(error.message).toMatch(/Error preparing an SQLite statement/);
-              else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
-                // expect(error.message).toMatch(/sqlite3_prepare_v2 failure:.*table test_table has no column named wrong_column/);
-                expect(error.message).toMatch(/syntax error or other error.*code 1/);
+              //* else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
+              //*   // XXX TBD CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+              //*   // expect(error.message).toMatch(/sqlite3_prepare_v2 failure:.*table test_table has no column named wrong_column/);
+              //*   expect(error.message).toMatch(/syntax error or other error.*code 1/);
               else if (!isWebSql && !isWindows && isAndroid && isImpl2)
                 expect(error.message).toMatch(/table test_table has no column named wrong_column.*code 1.*while compiling: INSERT INTO test_table/);
               else
@@ -661,8 +661,8 @@ var mytests = function() {
               expect(error.message).toMatch(/callback raised an exception.*or.*error callback did not return false/);
             else if (isWindows)
               expect(error.message).toMatch(/error callback did not return false.*Error preparing an SQLite statement/);
-            else if (isAndroid && !isImpl2)
-              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
+            //* else if (isAndroid && !isImpl2)
+            //*   expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
             else
               expect(error.message).toMatch(/error callback did not return false.*table test_table has no column named wrong_column/);
 
@@ -677,7 +677,7 @@ var mytests = function() {
         // NOTE: For some reason the Android/iOS (WebKit) Web SQL implementation
         // claims to detect the error at the "prepare statement" stage while the
         // plugin detects the error at the "execute statement" stage.
-        it(suiteName + 'CREATE VIRTUAL TABLE USING bogus module (other database error) [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
+        it(suiteName + 'CREATE VIRTUAL TABLE USING bogus module (other database error) [XXX TBD CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40; INCORRECT error code WebKit Web SQL & plugin]', function(done) {
           var db = openDatabase("create-virtual-table-using-bogus-module-error-test.db", "1.0", "Demo", DEFAULT_SIZE);
           expect(db).toBeDefined();
 
@@ -717,8 +717,8 @@ var mytests = function() {
                 expect(error.message).toMatch(/could not prepare statement.*1 not authorized/);
               else if (isWindows)
                 expect(error.message).toMatch(/SQLite3 step error result code: 1/);
-              else if (isAndroid && !isImpl2)
-                expect(error.message).toMatch(/syntax error or other error.*code 1/);
+              //* else if (isAndroid && !isImpl2)
+              //*   expect(error.message).toMatch(/syntax error or other error.*code 1/);
               else if (isAndroid && isImpl2)
                 expect(error.message).toMatch(/no such module: bogus.*code 1/);
               else
@@ -747,8 +747,8 @@ var mytests = function() {
               expect(error.message).toMatch(/callback raised an exception.*or.*error callback did not return false/);
             else if (isWindows)
               expect(error.message).toMatch(/error callback did not return false.*SQLite3 step error result code: 1/);
-            else if (isAndroid && !isImpl2)
-              expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
+            //* else if (isAndroid && !isImpl2)
+            //*   expect(error.message).toMatch(/error callback did not return false: syntax error or other error.*code 1/);
             else
               expect(error.message).toMatch(/error callback did not return false.*no such module: bogus/);
 
@@ -762,7 +762,7 @@ var mytests = function() {
 
         // TESTS with no SQL error handler:
 
-        it(suiteName + 'transaction.executeSql syntax error (command with misspelling) with no SQL error handler [XXX MISSING ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40]', function(done) {
+        it(suiteName + 'transaction.executeSql syntax error (command with misspelling) with no SQL error handler [XXX TBD CHECK ERROR DETAILS on Android ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40]', function(done) {
           db = openDatabase('tx-sql-syntax-error-with-no-sql-error-handler-test.db');
           db.transaction(function(transaction) {
             transaction.executeSql('SLCT 1');
@@ -786,9 +786,9 @@ var mytests = function() {
               expect(error.message).toMatch(/could not prepare statement.*1 near \"SLCT\": syntax error/);
             else if (isWindows)
               expect(error.message).toMatch(/a statement with no error handler failed: Error preparing an SQLite statement/);
-            else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-              // XXX MISSING ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
-              expect(error.message).toMatch(/a statement with no error handler failed: syntax error or other error.*code 1/);
+            //* else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
+            //*   // XXX TBD CHECK ERROR DETAILS Android (Android-evcore-native-driver) ref: litehelpers/Cordova-sqlite-evcore-extbuild-free#40
+            //*   expect(error.message).toMatch(/a statement with no error handler failed: syntax error or other error.*code 1/);
             else if (!isWebSql && !isWindows && isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed: near \"SLCT\": syntax error.*code 1.*while compiling: SLCT 1/);
             else if (!isWebSql) // [iOS/macOS plugin]
@@ -842,7 +842,7 @@ var mytests = function() {
             else if (isWindows)
               expect(error.message).toMatch(/a statement with no error handler failed: SQLite3 step error result code: 1/);
             else if (isAndroid && !isImpl2)
-              expect(error.message).toMatch(/a statement with no error handler failed: constraint fail.*code 19/);
+              expect(error.message).toMatch(/a statement with no error handler failed: constraint fail.*code: 19 message: UNIQUE constraint failed: test_table.data/);
             else if (isAndroid && isImpl2)
               expect(error.message).toMatch(/a statement with no error handler failed:.*constraint failure/);
             else if (isBrowser)
