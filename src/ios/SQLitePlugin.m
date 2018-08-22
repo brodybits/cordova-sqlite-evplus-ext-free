@@ -432,7 +432,8 @@
         [results addObject:@"error"];
         [results addObject:[error objectForKey:@"code"]];
         [results addObject:@"extra"]; // ignored (for now)
-        [results addObject:[error objectForKey:@"message"]];
+        [results addObject:[NSString stringWithFormat:@"code: %@ message: %@",
+            [error objectForKey:@"sqliteCode"], [error objectForKey:@"message"]]];
 
         return;
     }
@@ -522,8 +523,8 @@
     [error setObject:[NSNumber numberWithInt:webSQLCode] forKey:@"code"];
     [error setObject:[NSString stringWithUTF8String:message] forKey:@"message"];
 
-#if INCLUDE_SQLITE_ERROR_INFO
     [error setObject:[NSNumber numberWithInt:code] forKey:@"sqliteCode"];
+#if INCLUDE_SQLITE_ERROR_INFO
     [error setObject:[NSNumber numberWithInt:extendedCode] forKey:@"sqliteExtendedCode"];
     [error setObject:[NSString stringWithUTF8String:message] forKey:@"sqliteMessage"];
 #endif

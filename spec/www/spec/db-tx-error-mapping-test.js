@@ -848,7 +848,7 @@ var mytests = function() {
             else if (isBrowser)
               expect(error.message).toMatch(/a statement with no error handler failed: Error: UNIQUE constraint failed: test_table\.data/);
             else
-              expect(error.message).toMatch(/a statement with no error handler failed: UNIQUE constraint failed: test_table\.data/);
+              expect(error.message).toMatch(/a statement with no error handler failed: code: 19 message: UNIQUE constraint failed: test_table.data/);
 
             isWebSql ? done() : db.close(done, done);
           }, function() {
