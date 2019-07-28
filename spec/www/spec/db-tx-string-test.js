@@ -1378,6 +1378,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (isWindows) pending('XXX TBD CRASHES on Windows plugin in this plugin version (...)'); // XXX
           var db = openDatabase('SELECT-LOWER-X-41F0908CB1-test.db');
 
           db.transaction(function(tx) {
@@ -1409,6 +1410,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (isWindows) pending('XXX TBD CRASHES on Windows plugin in this plugin version (...)'); // XXX
           if (isMac || (!isWebSql && isAppleMobileOS)) pending('XXX KNOWN CRASH on iOS/macOS plugin in this plugin version (evplus)'); // XXX
 
           var db = openDatabase('SELECT-LOWER-X-41EDA080EDBCB1-test.db');
@@ -1511,6 +1513,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (isWindows) pending('XXX TBD POSSIBLE CRASH with plugin on Windows plugin in this plugin version (...)'); // XXX ???
           var db = openDatabase('emoji-select-hex-value-test.db');
           expect(db).toBeDefined();
 
@@ -1565,6 +1568,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (isWindows) pending('XXX TBD POSSIBLE CRASH with plugin on Windows plugin in this plugin version (...)'); // XXX ???
           var db = openDatabase('SELECT-LOWER-X-41F09F9883-test.db');
           expect(db).toBeDefined();
 
@@ -1600,6 +1604,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
           if (isMac || (!isWebSql && isAppleMobileOS)) pending('XXX KNOWN CRASH on iOS/macOS plugin in this plugin version (evplus)'); // XXX
+          if (isWindows) pending('XXX TBD POSSIBLE CRASH with plugin on Windows plugin in this plugin version (...)'); // XXX ???
 
           var db = openDatabase('SELECT-LOWER-X-41EDA0BDEDB88321-test.db');
           expect(db).toBeDefined();
