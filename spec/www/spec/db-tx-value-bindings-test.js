@@ -1164,6 +1164,7 @@ var mytests = function() {
         }, MYTIMEOUT);
 
         it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [PLUGIN ISSUES REPRODUCED: SELECT BLOB returns data with incorrect length on Android (default NDK implementation); SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; XXX TBD SKIP FINAL TEST on iOS/macOS plugin DUE TO KNOWN CRASH on evplus]", function(done) {
+          if (!isWebSql && isAndroid && !isImpl2) pending('XXX TBD POSSIBLE CRASH on Android plugin (...)'); // XXX TBD ???
           var db = openDatabase('INSERT-inline-BLOB-value-FFD1FFD2-and-check-stored-data.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
