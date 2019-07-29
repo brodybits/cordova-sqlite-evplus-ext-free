@@ -1039,7 +1039,9 @@ var mytests = function() {
               var resultRow1 = rs1.rows.item(0);
               expect(resultRow1).toBeDefined();
               expect(resultRow1.myresult).toBeDefined();
-              // SQLite3 with ICU-UNICODE for builtin android.database on Android 4.4 and greater
+              // SQLite3 with ICU-UNICODE for:
+              // - Chrome browser
+              // - androidDatabaseImplementation: 2 on Android 4.4 and greater
               if ((isWebSql && isChromeBrowser) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('AÉ');
@@ -1054,7 +1056,9 @@ var mytests = function() {
                 var resultRow2 = rs2.rows.item(0);
                 expect(resultRow2).toBeDefined();
                 expect(resultRow2.myresult).toBeDefined();
-                // SQLite3 with ICU-UNICODE for builtin android.database on Android 4.4 and greater
+                // SQLite3 with ICU-UNICODE for:
+                // - Chrome browser
+                // - androidDatabaseImplementation: 2 on Android 4.4 and greater
                 if ((isWebSql && isChromeBrowser) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('BÉ');
