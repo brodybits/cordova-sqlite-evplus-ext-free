@@ -1503,10 +1503,10 @@ var mytests = function() {
         // - litehelpers/Cordova-sqlite-storage#564
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
 
-        it(suiteName + 'string HEX value test with UTF-8 4-byte Gothic bairkan 𐌱 (U+10331) [XXX ENCODING BUG REPRODUCED on default Android SQLite3 XXX on default Android SQLite3 NDK build (using Android-evcore-native-driver); default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
-          // ENCODING BUG REPRODUCED for 4-byte UTF-8 characters
+        it(suiteName + 'string HEX value test with UTF-8 4-byte Gothic bairkan 𐌱 (U+10331) [ENCODING ISSUE RESOLVED on default Android SQLite3 NDK build (using Android-evcore-native-driver); default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
+          // ENCODING BUG NOW FIXED for 4-byte UTF-8 characters
           // on default Android database access implementation
-          // XXX on Android pre-6.0
+          // (...)
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1523,8 +1523,6 @@ var mytests = function() {
                 expect(rs1.rows.item(0).myresult).toBe('400000D831DF'); // (UTF-16le)
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent)))
                 expect(rs1.rows.item(0).myresult).toBe('40EDA080EDBCB1'); // ENCODING ISSUE REPRODUCED on default Android NDK implementation on Android 4.x/5.x
-              else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                expect(rs1.rows.item(0).myresult).toBe('403F'); // ENCODING ISSUE REPRODUCED on default Android NDK post-5.x
               else
                 expect(rs1.rows.item(0).myresult).toBe('40F0908CB1'); // (UTF-8)
 
@@ -1536,8 +1534,6 @@ var mytests = function() {
                   expect(rs2.rows.item(0).myresult).toBe('400000D831DF'); // (UTF-16le)
                 else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent)))
                   expect(rs2.rows.item(0).myresult).toBe('40EDA080EDBCB1'); // ENCODING ISSUE REPRODUCED on default Android NDK pre-6.0
-                else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                  expect(rs2.rows.item(0).myresult).toBe('403F'); // ENCODING ISSUE REPRODUCED on default Android NDK post-5.x
                 else
                   expect(rs2.rows.item(0).myresult).toBe('40F0908CB1'); // (UTF-8)
 
@@ -1556,7 +1552,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'string manipulation test with UTF-8 4-byte Gothic bairkan 𐌱 (U+10331) - TBD ENCODING ISSUE REPRODUCED on Android post-5.x (default evcore NDK implementation)', function(done) {
+        it(suiteName + 'string manipulation test with UTF-8 4-byte Gothic bairkan 𐌱 (U+10331) - ENCODING ISSUE RESOLVED on Android post-5.x (default evcore NDK implementation)', function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1570,19 +1566,13 @@ var mytests = function() {
               expect(rs1).toBeDefined();
               expect(rs1.rows).toBeDefined();
               expect(rs1.rows.length).toBe(1);
-              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                expect(rs1.rows.item(0).myresult).toBe('A?'); // ENCODING ISSUE on Android post-5.x
-              else
-                expect(rs1.rows.item(0).myresult).toBe('A𐌱');
+              expect(rs1.rows.item(0).myresult).toBe('A𐌱');
 
               tx.executeSql("SELECT UPPER('a𐌱') AS myresult", null, function(ignored, rs2) {
                 expect(rs2).toBeDefined();
                 expect(rs2.rows).toBeDefined();
                 expect(rs2.rows.length).toBe(1);
-                if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                  expect(rs2.rows.item(0).myresult).toBe('A?'); // ENCODING ISSUE on Android post-5.x
-                else
-                  expect(rs2.rows.item(0).myresult).toBe('A𐌱');
+                expect(rs2.rows.item(0).myresult).toBe('A𐌱');
 
                 // Close (plugin only) & finish:
                 (isWebSql) ? done() : db.close(done, done);
@@ -1597,7 +1587,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT LOWER(X'41F0908CB1') - RETURNS '\\uF041\\u8C90' ('\uF041\u8C90') UTF-16le on Android 4.1-4.3 (WebKit) Web SQL & Windows, 'a?' on Android with default evcore NDK provider (encoding issue), UTF-8 'a\\uD800\\uDF31' ('a\uD800\uDF31') otherwise", function(done) {
+        it(suiteName + "SELECT LOWER(X'41F0908CB1') - RETURNS '\\uF041\\u8C90' ('\uF041\u8C90') UTF-16le on Android 4.1-4.3 (WebKit) Web SQL & Windows, UTF-8 'a\\uD800\\uDF31' ('a\uD800\uDF31') otherwise (default Android evcore FIXED)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1613,8 +1603,6 @@ var mytests = function() {
               expect(rs.rows.length).toBe(1);
               if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                 expect(rs.rows.item(0).lowertext).toBe('\uF041\u8C90'); // (UTF-16le)
-              else if (!isWebSql && isAndroid && !isImpl2)
-                expect(rs.rows.item(0).lowertext).toBe('a?'); // ENCODING ISSUE on Android (default evcore NDK)
               else
                 expect(rs.rows.item(0).lowertext).toBe('a\uD800\uDF31'); // 'a𐌱' (UTF-8)
 
@@ -1630,7 +1618,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT LOWER(X'41EDA080EDBCB1') - RETURNS '\\uED41\u80A0\\uBCED' ('\uED41\u80A0\uBCED') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), 'a\uD800\uDF31' (non-standard encoding) on Android with default Android NDK provider on all Android versions & androidDatabaseProvider: 'system' on Android 4.x, 'a\\uFFFD\\uFFFD' ('a\uFFFD\uFFFD') on Android with androidDatabaseProvider: 'system' on Android post-4.x & (WebKit) Web SQL (Android/iOS/Browser); XXX KNOWN CRASH on iOS/macOS plugin in this plugin version (evplus)", function(done) {
+        it(suiteName + "SELECT LOWER(X'41EDA080EDBCB1') - RETURNS '\\uED41\u80A0\\uBCED' ('\uED41\u80A0\uBCED') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), 'a\uD800\uDF31' (non-standard encoding) on Android with default Android NDK provider on androidDatabaseProvider: 'system' on Android 4.x, 'a\\uFFFD\\uFFFD' ('a\uFFFD\uFFFD') on Android with androidDatabaseProvider: 'system' on Android post-4.x, default Android evcore (FIXED), and (WebKit) Web SQL (Android/iOS/Browser); XXX KNOWN CRASH on plugin on iOS/macOS & ... in this plugin version (...)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1650,8 +1638,6 @@ var mytests = function() {
                 expect(rs.rows.item(0).lowertext).toBe('\uED41\u80A0\uBCED');
               else if (isMac || (!isWebSql && isAppleMobileOS))
                 expect(rs.rows.item(0).lowertext).not.toBeDefined();
-              else if (!isWebSql && isAndroid && (!isImpl2 || (/Android 4/.test(navigator.userAgent))))
-                expect(rs.rows.item(0).lowertext).toBe('a\uD800\uDF31'); // 'a𐌱' (non-standard encoding)
               else
                 expect(rs.rows.item(0).lowertext).toBe('a\uFFFD\uFFFD'); // 'a��'
 
@@ -1667,7 +1653,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'Inline emoji string manipulation test: SELECT UPPER("a\\uD83D\\uDE03.") [\\u1F603 SMILING FACE (MOUTH OPEN)] - ENCODING ISSUE REPRODUCED on Android post-5.x', function(done) {
+        it(suiteName + 'Inline emoji string manipulation test: SELECT UPPER("a\\uD83D\\uDE03.") [\\u1F603 SMILING FACE (MOUTH OPEN)] - ENCODING ISSUE RESOLVED on Android evcore (post-5.x)', function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1683,10 +1669,8 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
-              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                expect(rs.rows.item(0).uppertext).toBe('A?.'); // ENCODING ISSUE on Android post-5.x
-              else
-                expect(rs.rows.item(0).uppertext).toBe('A\uD83D\uDE03.');
+
+              expect(rs.rows.item(0).uppertext).toBe('A\uD83D\uDE03.');
 
               // Close (plugin only) & finish:
               (isWebSql) ? done() : db.close(done, done);
@@ -1700,7 +1684,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'emoji string argument value manipulation test - ENCODING ISSUE REPRODUCED on Android post-5.x (default evcore NDK implementation)', function(done) {
+        it(suiteName + 'emoji string argument value manipulation test - ENCODING ISSUE RESOLVED on Android post-5.x (default evcore NDK implementation)', function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1717,10 +1701,7 @@ var mytests = function() {
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
 
-              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                expect(rs.rows.item(0).uppertext).toBe('A?.'); // ENCODING ISSUE REPRODUCED on Android post-5.x
-              else
-                expect(rs.rows.item(0).uppertext).toBe('A\uD83D\uDE03.');
+              expect(rs.rows.item(0).uppertext).toBe('A\uD83D\uDE03.');
 
               // Close (plugin only) & finish:
               (isWebSql) ? done() : db.close(done, done);
@@ -1734,6 +1715,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        // XXX ___:
         it(suiteName + 'emoji HEX test: SELECT HEX("@\\uD83D\\uDE03!") [\\u1F603 SMILING FACE (MOUTH OPEN)] [TBD ENCODING ISSUE REPRODUCED on Android (default evcore NDK implementation); default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
           // ENCODING ISSUE REPRODUCED for emojis and other 4-byte UTF-8
           // characters on default Android evcore NDK implementation
@@ -1758,8 +1740,6 @@ var mytests = function() {
                 expect(rs.rows.item(0).hexvalue).toBe('40003DD803DE2100'); // (UTF-16le)
               else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && /Android [4-5]/.test(navigator.userAgent))
                 expect(rs.rows.item(0).hexvalue).toBe('40EDA0BDEDB88321'); // ENCODING ISSUE REPRODUCED on Android pre-6.0
-              else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                expect(rs.rows.item(0).hexvalue).toBe('403F21'); // ENCODING ISSUE REPRODUCED on Android post-5.x
               else
                 expect(rs.rows.item(0).hexvalue).toBe('40F09F988321'); // (UTF-8)
 
@@ -1772,8 +1752,6 @@ var mytests = function() {
                   expect(rs2.rows.item(0).hexvalue).toBe('40003DD803DE2100'); // (UTF-16le)
                 else if (!isWebSql && !isWindows && isAndroid && !isImpl2 && /Android [4-5]/.test(navigator.userAgent))
                   expect(rs2.rows.item(0).hexvalue).toBe('40EDA0BDEDB88321'); // ENCODING ISSUE REPRODUCED on Android pre-6.0
-                else if (!isWebSql && !isWindows && isAndroid && !isImpl2)
-                  expect(rs2.rows.item(0).hexvalue).toBe('403F21'); // ENCODING ISSUE REPRODUCED on Android post-5.x
                 else
                   expect(rs2.rows.item(0).hexvalue).toBe('40F09F988321'); // (UTF-8)
 
@@ -1792,7 +1770,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "Inline BLOB with emoji string manipulation test: SELECT LOWER(X'41F09F9883') - RETURNS '\\uF041\\u989F' ('\uF041\u989F') UTF-16le on Android 4.1-4.3 (WebKit) Web SQL & Windows, 'a?' on Android (default evcore NDK provider), UTF-8 'a\\uD83D\\uDE03' ('a\uD83D\uDE03') with U+1F603 SMILING FACE (MOUTH OPEN) otherwise", function(done) {
+        it(suiteName + "Inline BLOB with emoji string manipulation test: SELECT LOWER(X'41F09F9883') - RETURNS '\\uF041\\u989F' ('\uF041\u989F') UTF-16le on Android 4.1-4.3 (WebKit) Web SQL & Windows, UTF-8 'a\\uD83D\\uDE03' ('a\uD83D\uDE03') with U+1F603 SMILING FACE (MOUTH OPEN) otherwise (Android evcore FIXED)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1811,8 +1789,6 @@ var mytests = function() {
               expect(rs.rows.length).toBe(1);
               if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                 expect(rs.rows.item(0).lowertext).toBe('\uF041\u989F'); // (UTF-16le)
-              else if (!isWebSql && isAndroid && !isImpl2)
-                expect(rs.rows.item(0).lowertext).toBe('a?'); // ENCODING ISSUE REPRODUCED on Android
               else
                 expect(rs.rows.item(0).lowertext).toBe('a\uD83D\uDE03');
 
@@ -1828,7 +1804,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT LOWER(X'41EDA0BDEDB88321') - RETURNS '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on Android 4.1-4.3 (WebKit) Web SQL & Windows (UTF-16le), 'a\\uD83D\\uDE03!' ('a\uD83D\uDE03!') on Android with default Android NDK provider on all Android versions & androidDatabaseProvider: 'system' on Android 4.x, '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on (WebKit) Web SQL & Android with androidDatabaseProvider: 'system' on Android post-4.x; XXX KNOWN CRASH on iOS/macOS plugin in this plugin version (evplus)", function(done) {
+        it(suiteName + "SELECT LOWER(X'41EDA0BDEDB88321') - RETURNS '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on Android 4.1-4.3 (WebKit) Web SQL (UTF-16le), 'a\\uD83D\\uDE03!' ('a\uD83D\uDE03!') on Android with androidDatabaseProvider: 'system' on Android 4.x, '\\uED41\\uBDA0\\uB8ED\\u2183' ('\uED41\uBDA0\uB8ED\u2183') on (WebKit) Web SQL, Android with default evcore NDK driver (all) and androidDatabaseProvider: 'system' on Android post-4.x; XXX KNOWN CRASH on iOS/macOS plugin & ... in this plugin version (...)", function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -1856,12 +1832,8 @@ var mytests = function() {
               // FUTURE TBD add a new case here when adding a new platform:
               if (isWindows || (isWebSql && isAndroid && /Android 4.[1-3]/.test(navigator.userAgent)))
                 expect(rs.rows.item(0).lowertext).toBe('\uED41\uBDA0\uB8ED\u2183'); // (UTF-16le)
-              else if (isWebSql ||
-                       (isAndroid &&
-                        (isImpl2 && !(/Android 4/.test(navigator.userAgent)))))
+              else if (isWebSql || isAndroid)
                 expect(rs.rows.item(0).lowertext).toBe('a\uFFFD\uFFFD!'); // 'a��!'
-              else if (!isWebSql && isAndroid) // (other conditions checked above)
-                expect(rs.rows.item(0).lowertext).toBe('a\uD83D\uDE03!');
               else if (!isWebSql && (isAppleMobileOS || isMac))
                 expect(rs.rows.item(0).lowertext).not.toBeDefined();
               else
@@ -2145,7 +2117,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'HEX value of string with 25 emojis [TBD ENCODING ISSUE reproduced on Android (default evcore NDK provider) on Android post-5.x (non-standard encoding on Android 4.x/5.x); default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
+        it(suiteName + 'HEX value of string with 25 emojis [ENCODING ISSUE RESOLVED on Android (default evcore NDK provider) on Android post-5.x (non-standard encoding on Android 4.x/5.x); default sqlite HEX encoding: UTF-6le on Windows & Android 4.1-4.3 (WebKit) Web SQL, UTF-8 otherwise]', function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -2185,9 +2157,6 @@ var mytests = function() {
                   '40EDA0BDEDB881EDA0BDEDB882EDA0BDEDB883EDA0BDEDB884EDA0BDEDB885' +
                   '40EDA0BDEDB881EDA0BDEDB882EDA0BDEDB883EDA0BDEDB884EDA0BDEDB885' +
                   '40EDA0BDEDB881EDA0BDEDB882EDA0BDEDB883EDA0BDEDB884EDA0BDEDB885');
-              else if (!isWebSql && isAndroid && !isImpl2)
-                expect(resultRow1.hexValue).toBe(
-                  '403F3F3F3F3F403F3F3F3F3F403F3F3F3F3F403F3F3F3F3F403F3F3F3F3F');
               else
                 expect(resultRow1.hexValue).toBe(
                   '40F09F9881F09F9882F09F9883F09F9884F09F9885' +
@@ -2206,7 +2175,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'UPPER value of string with 25 emojis - ENCODING ISSUE REPRODUCED on Android post-5.x (default evcore NDK implementation)', function(done) {
+        it(suiteName + 'UPPER value of string with 25 emojis - ENCODING ISSUE RESOVED for Android (default evcore NDK implementation)', function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
@@ -2227,10 +2196,8 @@ var mytests = function() {
               var resultRow1 = rs1.rows.item(0);
               expect(resultRow1).toBeDefined();
               expect(resultRow1.upperText).toBeDefined();
-              if (!isWebSql && isAndroid && !isImpl2 && !(/Android [4-5]/.test(navigator.userAgent)))
-                expect(resultRow1.upperText).toBe('A?????A?????A?????A?????A?????');
-              else
-                expect(resultRow1.upperText).toBe(
+              // NOW SAME for (WebKit) Web SQL & plugin on all platforms:
+              expect(resultRow1.upperText).toBe(
                   'A\uD83D\uDE01\uD83D\uDE02\uD83D\uDE03\uD83D\uDE04\uD83D\uDE05' +
                   'A\uD83D\uDE01\uD83D\uDE02\uD83D\uDE03\uD83D\uDE04\uD83D\uDE05' +
                   'A\uD83D\uDE01\uD83D\uDE02\uD83D\uDE03\uD83D\uDE04\uD83D\uDE05' +
