@@ -1203,9 +1203,16 @@ var mytests = function() {
               // - Web SQL on Chrome desktop browser
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
+              // SQLite3 with EU character support for plugin on:
+              // - Android with androidDatabaseImplementation: 'default'
+              // - iOS
+              // - mac OS ("osx")
+              // - Windows
               if ((isWebSql && isChromeBrowser) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('STRASSE');
+              else if (!isWebSql)
+                expect(resultRow1.myresult).toBe('STRAẞE');
               else
                 expect(resultRow1.myresult).toBe('STRAßE');
 
@@ -1221,9 +1228,16 @@ var mytests = function() {
                 // - Web SQL on Chrome desktop browser
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
+                // SQLite3 with EU character support for plugin on:
+                // - Android with androidDatabaseImplementation: 'default'
+                // - iOS
+                // - mac OS ("osx")
+                // - Windows
                 if ((isWebSql && isChromeBrowser) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('STRASSE');
+                else if (!isWebSql)
+                  expect(resultRow2.myresult).toBe('STRAẞE');
                 else
                   expect(resultRow2.myresult).toBe('STRAßE');
 
@@ -1431,7 +1445,13 @@ var mytests = function() {
               // - Web SQL on Chrome desktop browser
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
+              // SQLite3 with EU character support for plugin on:
+              // - Android with androidDatabaseImplementation: 'default'
+              // - iOS
+              // - mac OS ("osx")
+              // - Windows
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && !(isAndroid && isImpl2)) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('straße');
               else
@@ -1449,7 +1469,13 @@ var mytests = function() {
                 // - Web SQL on Chrome desktop browser
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
+                // SQLite3 with EU character support for plugin on:
+                // - Android with androidDatabaseImplementation: 'default'
+                // - iOS
+                // - mac OS ("osx")
+                // - Windows
                 if ((isWebSql && isChromeBrowser) ||
+                    (!isWebSql && !(isAndroid && isImpl2)) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('straße');
                 else
