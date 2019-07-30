@@ -127,11 +127,11 @@ void init_map() {
 
 static
 void apply_eu_string_map(uint16_t * eu_string_map, sqlite3_context * context, int argc, sqlite3_value ** argv) {
-  if (argc < 1) {
+  if (argc < 1 || sqlite3_value_type(argv[0]) == SQLITE_NULL) {
     sqlite3_result_null(context);
   } else if (sqlite3_value_bytes(argv[0]) == 0) {
     // empty string:
-    sqlite3_result_text(context, sqlite3_malloc(0), 0, NULL);
+    sqlite3_result_text(context, "", 0, NULL);
   } else {
     // THANKS for guidance:
     // http://www.sqlite.org/cgi/src/artifact/43916c1d8e6da5d1

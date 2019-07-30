@@ -161,7 +161,8 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT UPPER('') (INLINE empty string) parameter argument XXX TBD BUG IN PLUGIN: ___", function(done) {
+        // XXX no more bug in plugin:
+        it(suiteName + "SELECT UPPER('') (INLINE empty string) parameter argument", function(done) {
           var db = openDatabase('SELECT-UPPER-with-inline-empty-TEXT-string-argument.db');
           expect(db).toBeDefined();
 
@@ -170,12 +171,8 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
-              /* ** XXX TBD ???:
-              if (!isWebSql)
-                expect(rs.rows.item(0).myresult).toBe(null);
-              else
-              // ** */
-                expect(rs.rows.item(0).myresult).toBe('');
+              // XXX no more bug in plugin:
+              expect(rs.rows.item(0).myresult).toBe('');
               done();
             });
           }, function(error) {
