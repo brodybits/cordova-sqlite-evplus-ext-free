@@ -2175,6 +2175,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
+        // XXX TBD POSSIBLY NOT FIXED on Android 5.x/XXX
         it(suiteName + 'UPPER value of string with 25 emojis - ENCODING ISSUE RESOVED for Android (default evcore NDK implementation)', function(done) {
           // ref:
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
