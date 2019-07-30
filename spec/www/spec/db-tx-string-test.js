@@ -1488,7 +1488,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        // TBD KNOWN ENCODING ISSUE with emojis and other 4-byte UTF-8 characters
+        // FIXED: ENCODING ISSUE with emojis and other 4-byte UTF-8 characters
         // on default Android evcore NDK implementation
         // ref:
         // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
