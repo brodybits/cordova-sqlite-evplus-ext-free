@@ -1166,7 +1166,7 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [PLUGIN ISSUES REPRODUCED: SELECT BLOB returns data with incorrect length on Android (default NDK implementation); SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; XXX TBD SKIP FINAL TEST on iOS/macOS plugin DUE TO KNOWN CRASH on evplus]", function(done) {
+        it(suiteName + "INSERT inline BLOB value (X'FFD1FFD2') and check stored data [PLUGIN ISSUES REPRODUCED: SELECT BLOB returns data with incorrect length on Android (default NDK implementation); SELECT BLOB VALUE ERROR on Android (androidDatabaseProvider: 'system') & Windows; XXX TBD SKIP FINAL TEST on iOS/macOS/Android plugin DUE TO KNOWN CRASH on evplus]", function(done) {
           var db = openDatabase('INSERT-inline-BLOB-value-FFD1FFD2-and-check-stored-data.db', '1.0', 'Demo', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1188,7 +1188,7 @@ var mytests = function() {
                   expect(item.hexValue).toBe('FFD1FFD2');
 
                   // XXX TBD STOP HERE DUE TO KNOWN CRASH on evplus plugin version on iOS/macOS:
-                  if (isAppleMobileOS || isMac) return done();
+                  if (isAppleMobileOS || isMac || (!isWebSql && isAndroid && !isImpl2)) return done();
 
                   tx.executeSql('SELECT * FROM test_table', [], function(ignored, rs3) {
                     if (!isWebSql && isWindows) expect('PLUGIN BEHAVIOR CHANGED: UNEXPECTED SUCCESS on Windows').toBe('--');
