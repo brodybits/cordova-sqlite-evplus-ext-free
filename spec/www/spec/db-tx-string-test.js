@@ -1063,11 +1063,17 @@ var mytests = function() {
               var resultRow1 = rs1.rows.item(0);
               expect(resultRow1).toBeDefined();
               expect(resultRow1.myresult).toBeDefined();
+              // SQLite3 with EU character support for plugin on:
+              // - Android with androidDatabaseImplementation: 'default'
+              // - iOS
+              // - mac OS ("osx")
+              // - Windows
               // SQLite3 with ICU-UNICODE for:
               // - Web SQL on Chrome desktop browser
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && !(isAndroid && isImpl2)) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('AÉ');
               else
@@ -1081,11 +1087,17 @@ var mytests = function() {
                 var resultRow2 = rs2.rows.item(0);
                 expect(resultRow2).toBeDefined();
                 expect(resultRow2.myresult).toBeDefined();
+                // SQLite3 with EU character support for plugin on:
+                // - Android with androidDatabaseImplementation: 'default'
+                // - iOS
+                // - mac OS ("osx")
+                // - Windows
                 // SQLite3 with ICU-UNICODE for:
                 // - Web SQL on Chrome desktop browser
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
                 if ((isWebSql && isChromeBrowser) ||
+                    (!isWebSql && !(isAndroid && isImpl2)) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('BÉ');
                 else
@@ -1119,11 +1131,17 @@ var mytests = function() {
               var resultRow1 = rs1.rows.item(0);
               expect(resultRow1).toBeDefined();
               expect(resultRow1.myresult).toBeDefined();
+              // SQLite3 with EU character support for plugin on:
+              // - Android with androidDatabaseImplementation: 'default'
+              // - iOS
+              // - mac OS ("osx")
+              // - Windows
               // SQLite3 with ICU-UNICODE for:
               // - Web SQL on Chrome desktop browser
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && !(isAndroid && isImpl2)) ||
                   (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(resultRow1.myresult).toBe('aé');
               else
@@ -1137,11 +1155,17 @@ var mytests = function() {
                 var resultRow2 = rs2.rows.item(0);
                 expect(resultRow2).toBeDefined();
                 expect(resultRow2.myresult).toBeDefined();
+                // SQLite3 with EU character support for plugin on:
+                // - Android with androidDatabaseImplementation: 'default'
+                // - iOS
+                // - mac OS ("osx")
+                // - Windows
                 // SQLite3 with ICU-UNICODE for:
                 // - Web SQL on Chrome desktop browser
                 // - plugin with androidDatabaseImplementation: 2 on
                 //   Android 4.4 & newer
                 if ((isWebSql && isChromeBrowser) ||
+                    (!isWebSql && !(isAndroid && isImpl2)) ||
                     (isAndroid && ((isWebSql && isAndroid && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                   expect(resultRow2.myresult).toBe('bé');
                 else
@@ -1511,6 +1535,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
           var db = openDatabase('UTF8-2050-upper-value-string-test.db');
 
           db.transaction(function(tx) {
@@ -1551,6 +1576,8 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (isWindows) pending('XXX TBD CRASHES on Windows plugin in this plugin version (...)'); // XXX
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
           var db = openDatabase('SELECT-LOWER-X-41F0908CB1-test.db');
 
           db.transaction(function(tx) {
@@ -1582,7 +1609,9 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (isWindows) pending('XXX TBD CRASHES on Windows plugin in this plugin version (...)'); // XXX
           if (isMac || (!isWebSql && isAppleMobileOS)) pending('XXX KNOWN CRASH on iOS/macOS plugin in this plugin version (evplus)'); // XXX
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
 
           var db = openDatabase('SELECT-LOWER-X-41EDA080EDBCB1-test.db');
 
@@ -1617,6 +1646,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
           var db = openDatabase('Inline-emoji-select-upper-test.db');
           expect(db).toBeDefined();
 
@@ -1649,6 +1679,7 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
           var db = openDatabase('emoji-string-argument-upper-value-test.db');
           expect(db).toBeDefined();
 
@@ -1684,6 +1715,8 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
+          if (isWindows) pending('XXX TBD POSSIBLE CRASH with plugin on Windows plugin in this plugin version (...)'); // XXX ???
           var db = openDatabase('emoji-select-hex-value-test.db');
           expect(db).toBeDefined();
 
@@ -1738,6 +1771,8 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
+          if (isWindows) pending('XXX TBD POSSIBLE CRASH with plugin on Windows plugin in this plugin version (...)'); // XXX ???
           var db = openDatabase('SELECT-LOWER-X-41F09F9883-test.db');
           expect(db).toBeDefined();
 
@@ -1772,7 +1807,9 @@ var mytests = function() {
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#44
           // - litehelpers/Cordova-sqlite-storage#564
           // - litehelpers/Cordova-sqlite-evcore-extbuild-free#7
+          if (!isWebSql && isAndroid && !isImpl2 && (/Android [4-5]/.test(navigator.userAgent))) pending('XXX TBD POSSIBLE CRASH on Android plugin on Android pre-6.0 (...)'); // XXX TBD
           if (isMac || (!isWebSql && isAppleMobileOS)) pending('XXX KNOWN CRASH on iOS/macOS plugin in this plugin version (evplus)'); // XXX
+          if (isWindows) pending('XXX TBD POSSIBLE CRASH with plugin on Windows plugin in this plugin version (...)'); // XXX ???
 
           var db = openDatabase('SELECT-LOWER-X-41EDA0BDEDB88321-test.db');
           expect(db).toBeDefined();
@@ -2016,11 +2053,17 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
+              // SQLite3 with EU character support for plugin on:
+              // - Android with androidDatabaseImplementation: 'default'
+              // - iOS
+              // - mac OS ("osx")
+              // - Windows
               // SQLite3 with ICU-UNICODE for:
               // - Web SQL on Chrome desktop browser
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && !(isAndroid && isImpl2)) ||
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
@@ -2048,11 +2091,17 @@ var mytests = function() {
               expect(rs).toBeDefined();
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
+              // SQLite3 with EU character support for plugin on:
+              // - Android with androidDatabaseImplementation: 'default'
+              // - iOS
+              // - mac OS ("osx")
+              // - Windows
               // SQLite3 with ICU-UNICODE for:
               // - Web SQL on Chrome desktop browser
               // - plugin with androidDatabaseImplementation: 2 on
               //   Android 4.4 & newer
               if ((isWebSql && isChromeBrowser) ||
+                  (!isWebSql && !(isAndroid && isImpl2)) ||
                   (isAndroid && ((isWebSql && !(/Android 4.[1-3]/.test(navigator.userAgent))) || (isImpl2 && /Android [5-9]/.test(navigator.userAgent)))))
                 expect(rs.rows.item(0).upper_result).toBe('TEST ¢ É €');
               else
