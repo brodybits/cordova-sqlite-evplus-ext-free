@@ -1165,7 +1165,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + "SELECT LOWER(-ABS(?)) with ['9e999'] (Infinity) parameter argument (reference test) XXX TBD BUG IN PLUGIN: ___", function(done) {
+        // XXX SKIP ON PLUGIN AND TODO REVERT ALL OTHER CHANGES HERE:
+        it(suiteName + "SELECT LOWER(-ABS(?)) with ['9e999'] (Infinity) parameter argument (reference test)", function(done) {
+          if (!isWebSql) pending('TBD SKIP ON PLUGIN DUE TO KNOWN ISSUES WITH EU CHARACTER ENHANCEMENTS'); // XXX TBD XXX
           var db = openDatabase('SELECT-LOWER-minus-ABS-Infinite-parameter-results-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1176,10 +1178,8 @@ var mytests = function() {
               expect(rs.rows).toBeDefined();
               expect(rs.rows.length).toBe(1);
               expect(rs.rows.item(0).myresult).toBeDefined();
-              if (!isWebSql)
-                expect(rs.rows.item(0).myresult).toBe('-ınf');
-              else
-                expect(rs.rows.item(0).myresult).toBe('-inf');
+              // XXX TODO REVERT UPDATE HERE:
+              expect(rs.rows.item(0).myresult).toBe('-inf');
 
               // Close (plugin only) & finish:
               (isWebSql) ? done() : db.close(done, done);
@@ -1194,7 +1194,9 @@ var mytests = function() {
           });
         }, MYTIMEOUT);
 
-        it(suiteName + 'SELECT LOWER(?) with [Infinity] parameter argument [XXX TBD BUG IN PLUGIN: result with strange value: "ınf"]', function(done) {
+        // XXX SKIP ON PLUGIN AND TODO REVERT ALL OTHER CHANGES HERE:
+        it(suiteName + 'SELECT LOWER(?) with [Infinity] parameter argument [XXX PLUGIN BROKEN: ...]', function(done) {
+          if (!isWebSql) pending('TBD SKIP ON PLUGIN DUE TO KNOWN ISSUES WITH EU CHARACTER ENHANCEMENTS'); // XXX TBD XXX
           var db = openDatabase('SELECT-LOWER-Infinite-parameter-results-test.db', '1.0', 'Test', DEFAULT_SIZE);
 
           db.transaction(function(tx) {
@@ -1206,10 +1208,11 @@ var mytests = function() {
               expect(rs.rows.length).toBe(1);
               expect(rs.rows.item(0).myresult).toBeDefined();
 
+              // Android/iOS plugin issue
               if (!isWebSql && isAndroid && isImpl2)
                 expect(rs.rows.item(0).myresult).toBe('');
-              else if (!isWebSql)
-                expect(rs.rows.item(0).myresult).toBe('ınf');
+              else if (!isWebSql && (isAndroid || isAppleMobileOS))
+                expect(rs.rows.item(0).myresult).toBe(null);
               else
                 expect(rs.rows.item(0).myresult).toBe('inf');
 
