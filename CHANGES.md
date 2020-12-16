@@ -2,6 +2,8 @@
 
 # cordova-sqlite-evplus-ext-free 0.5.0-rc3-dev
 
+- apply SQLite 3.34.0 update
+
 # cordova-sqlite-evplus-ext-free 0.5.0-rc2
 
 - remove some extra logging from this plugin version
